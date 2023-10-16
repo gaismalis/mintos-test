@@ -79,6 +79,10 @@ class TransactionServiceTest extends TestCase
     public function testTransactionSuccessful() {
         $recipientAccount = StubEntityFactory::createAccount(amount: new Money('10', 'USD'));
         $senderAccount = StubEntityFactory::createAccount(amount: new Money('10', 'EUR'));
+
+        $recipientBalance = $recipientAccount->getBalance();
+        $senderBalance = $senderAccount->getBalance();
+
         $amount = new Money(10, 'USD');
 
         $this->moneyConversionService
@@ -86,8 +90,9 @@ class TransactionServiceTest extends TestCase
             ->method('convert')
             ->willReturn(new Money(8, 'EUR'));
 
-        // should test db changes
-
         $this->transactionService->transfer($recipientAccount, $senderAccount, $amount);
+
+        $this->assertLessThan($senderBalance->getAmount(), $senderAccount->getBalance()->getAmount());
+        $this->assertGreaterThan($recipientBalance->getAmount(), $recipientAccount->getBalance()->getAmount());
     }
 }
