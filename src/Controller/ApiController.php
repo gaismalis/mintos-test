@@ -10,6 +10,7 @@ use App\Repository\ClientRepository;
 use App\Repository\TransactionRepository;
 use App\Service\ExchangeRateProvider\Exception\TransactionException;
 use App\Service\TransactionService;
+use Doctrine\DBAL\LockMode;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -93,8 +94,8 @@ class ApiController extends AbstractController
         $amount = $request->request->get('amount');
         $currency = $request->request->get('currency');
 
-        $recipientAccount = $this->accountRepository->find($recipientAccountId);
-        $senderAccount = $this->accountRepository->find($senderAccountId);
+        $recipientAccount = $this->accountRepository->find($recipientAccountId, LockMode::PESSIMISTIC_WRITE);
+        $senderAccount = $this->accountRepository->find($senderAccountId, LockMode::PESSIMISTIC_WRITE);
 
         $amount = new Money($amount, $currency);
 
