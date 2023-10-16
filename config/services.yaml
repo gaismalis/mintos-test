@@ -22,3 +22,16 @@ services:
 
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
+    http_client:
+        class: GuzzleHttp\Client
+        arguments:
+            $config:
+                $timeout: 5.0
+
+    # alias
+    GuzzleHttp\Client: '@http_client'
+
+    App\Service\ExchangeRateProvider\ExchangeRateService:
+        arguments:
+            $apiKey: '%env(EXCHANGE_RATE_API_KEY)%'
+            $baseUrl: 'https://api.freecurrencyapi.com/v1/'

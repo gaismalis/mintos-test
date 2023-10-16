@@ -17,6 +17,12 @@ framework:
     #fragments: true
     php_errors:
         log: true
+#
+#    rate_limiter:
+#        money_transfer:
+#            policy: 'fixed_window'
+#            limit: 2
+#            interval: '1 minute'
 
 when@test:
     framework:
