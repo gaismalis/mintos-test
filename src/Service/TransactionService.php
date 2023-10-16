@@ -7,6 +7,7 @@ use App\Entity\Dto\Money;
 use App\Entity\Enum\TransactionType;
 use App\Entity\Transaction;
 use App\Service\ExchangeRateProvider\Exception\TransactionException;
+use Doctrine\DBAL\LockMode;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -70,6 +71,9 @@ class TransactionService
     {
         try {
             $this->entityManager->beginTransaction();
+
+            $this->entityManager->lock($senderAccount, LockMode::PESSIMISTIC_WRITE);
+            $this->entityManager->lock($recipientAccount, LockMode::PESSIMISTIC_WRITE);
 
             $this->updateSenderBalance($senderAccount, $senderAmount);
             $this->updateRecipientBalance($recipientAccount, $amount);
