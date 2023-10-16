@@ -41,7 +41,7 @@ class ApiController extends AbstractController
     }
 
     //todo: should I add rate limiter? https://symfony.com/doc/current/rate_limiter.html
-    #[Route('/v1/clients/{clientId}/accounts', name: 'client_accounts')]
+    #[Route('/v1/clients/{clientId}/accounts', name: 'client_accounts', methods: ['GET'])]
     public function accounts(int $clientId): JsonResponse
     {
         /** @var Client $client */
@@ -61,7 +61,7 @@ class ApiController extends AbstractController
         );
     }
 
-    #[Route('/v1/accounts/{accountId}/transactions', name: 'account_transactions')]
+    #[Route('/v1/accounts/{accountId}/transactions', name: 'account_transactions', methods: ['GET'])]
     public function transactions(Request $request, int $accountId): JsonResponse
     {
         $limit = $request->query->get('limit');
