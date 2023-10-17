@@ -1,12 +1,15 @@
-#How to build project
+# How to build project
 1) docker-compose up -d --build
 2) docker exec -it mintos-test-app-1 /bin/bash
     where _mintos-test-app-1_ container name
 3) php bin/console doctrine:migrations:migrate
 
-#Endpoints:
-###/v1/clients/{clientId}/accounts
-####method: GET
+# Endpoints:
+
+### /v1/clients/{clientId}/accounts
+
+#### method: GET
+
 response example:
 ```json
 [
@@ -21,13 +24,16 @@ response example:
 ]
 ```
 
-###/v1/accounts/{accountId}/transactions?limit=3&offset=1
-####method: GET
-######optional query params:
+### /v1/accounts/{accountId}/transactions?limit=3&offset=1
+
+### #method: GET
+##### optional query params:
 _int_ limit
+
 _int_ offset
+
 response example:
-    ```json
+```json
     [
         {
             "id": 8,
@@ -46,15 +52,19 @@ response example:
             "createdAt": null
         }
     ]
-    ```
+```
 
-###/v1/accounts/transfer
-####method: POST
-######required post params:
+### /v1/accounts/transfer
+#### method: POST
+##### required post params:
 _int_ recipientAccountId
+
 _int_ senderAccountId
+
 _float_ amount
+
 _string_ currency
+
 response example:
 ```json
 {"message":"Money transferred successfully"}
