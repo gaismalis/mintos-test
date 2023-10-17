@@ -1,8 +1,10 @@
 # How to build project
 1) docker-compose up -d --build
 2) docker exec -it mintos-test-app-1 /bin/bash
+   
     where _mintos-test-app-1_ container name
-3) php bin/console doctrine:migrations:migrate
+   
+4) php bin/console doctrine:migrations:migrate
 
 # Endpoints:
 
