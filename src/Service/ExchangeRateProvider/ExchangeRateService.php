@@ -2,7 +2,6 @@
 
 namespace App\Service\ExchangeRateProvider;
 
-use App\Entity\Dto\Money;
 use App\Repository\ExchangeRateRepository;
 use App\Service\ExchangeRateProvider\Exception\TransactionException;
 use Exception;
@@ -13,6 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ExchangeRateService implements ExchangeRateProvider
 {
     public const ERROR_FALLBACK_RATES_NOT_FOUND = 'Fallback rate from database not found';
+    public const ERROR_CLIENT_TOO_BUSY = 'Client is too busy';
 
     private const MAX_RETRIES = 3;
     private const TIMEOUT = 5;
@@ -50,6 +50,8 @@ class ExchangeRateService implements ExchangeRateProvider
                 throw new TransactionException($exception->getCode(), $exception->getMessage());
             }
         }
+
+        throw new TransactionException(Response::HTTP_TOO_MANY_REQUESTS, self::ERROR_CLIENT_TOO_BUSY);
     }
 
     /** $useStaleRate argument determinates weather system will try to get rates from db in case Api is not available
